@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<h1><%= title %></h1>
+<form action="/submit" method="POST" id="carForm">
+  <label for="MaXe">MaXe:</label>
+  <input type="text" id="MaXe" name="MaXe" required><br>
+
+  <label for="Name">Name:</label>
+  <input type="text" id="Name" name="Name" required><br>
+
+  <label for="Price">Price:</label>
+  <input type="text" id="Price" name="Price" required><br>
+
+  <label for="Year">Year:</label>
+  <input type="text" id="Year" name="Year" required><br>
+
+  <label for="Brand">Brand:</label>
+  <input type="text" id="Brand" name="Brand" required><br>
+
+  <button type="submit">Tạo Ô Tô</button>
+</form>
+
+<div class="error" id="errorMessages"></div>
+
+<script>
+  document.getElementById('carForm').addEventListener('submit', function(event) {
+    var errorMessages = [];
+    var name = document.getElementById('Name').value;
+    var price = document.getElementById('Price').value;
+    var year = document.getElementById('Year').value;
+
+    // Validate Name: Chỉ chứa chữ
+    if (!/^[a-zA-Z\s]+$/.test(name)) {
+      errorMessages.push('Tên xe chỉ được chứa chữ.');
+    }
+
+    // Validate Price: Phải là số và lớn hơn 0
+    if (isNaN(price) || price <= 0) {
+      errorMessages.push('Giá xe phải là một số hợp lệ.');
+    }
+
+    // Validate Year: Năm từ 1980 đến 2024
+    if (year < 1980 || year > 2024) {
+      errorMessages.push('Năm sản xuất phải từ 1980 đến 2024.');
+    }
+
+    // Nếu có lỗi, ngừng submit và hiển thị lỗi
+    if (errorMessages.length > 0) {
+      event.preventDefault();
+      document.getElementById('errorMessages').innerHTML = errorMessages.join('<br>');
+    }
+  });
+</script>
+</body>
+</html>
